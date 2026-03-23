@@ -1,0 +1,23 @@
+{
+  "name": "shop-ex1",
+  "version": "1.0.0",
+  "main": "cypress.config.js",
+  "scripts": {
+    "test:shop": "cypress open --config baseUrl=https://fakestore.testelka.pl/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maczking/shop-ex1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maczking/shop-ex1/issues"
+  },
+  "homepage": "https://github.com/maczking/shop-ex1#readme",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^15.12.0"
+  }
+}
