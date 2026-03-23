@@ -1,4 +1,4 @@
-name: Cypress E2E Tests
+name: Draft of Cypress Tests Workflow - must be updated
 
 on:
   push:
