@@ -1,4 +1,4 @@
-name: Draft of Cypress Tests Workflow - must be updated
+name: Cypress Exercises
 
 on:
   push:
@@ -7,30 +7,33 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
           config: baseUrl=https://fakestore.testelka.pl/
           browser: chrome
-        env:
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Slack Notification
-        if: always() 
+        if: always()
         uses: rtCamp/action-slack-notify@v2
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_CHANNEL: 'test-notifications'
           SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
-          SLACK_ICON: https://github.com/cypress-io.png?size=48
-          SLACK_MESSAGE: "Testy Cypress na ${{ github.repository }} zakończone statusem: ${{ job.status }}"
-          SLACK_TITLE: "Cypress Test Results"
-          SLACK_USERNAME: CypressBot
+          SLACK_MESSAGE: "Testy Cypress zakończone statusem: ${{ job.status }}"
