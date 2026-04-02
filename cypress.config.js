@@ -1,5 +1,5 @@
 const { defineConfig } = require("cypress");
-const fs = require('fs')
+const fs = require("fs");
 
 module.exports = defineConfig({
   video: true,
@@ -13,18 +13,22 @@ module.exports = defineConfig({
       ],
     },
     setupNodeEvents(on, config) {
-      on('after:spec', (spec, results) => {
-         if (!failures && results.video && fs.existsSync(results.video)) {
-      try {
-         fs.unlinkSync(results.video);
-      } catch (e) {
-         console.log('Could not delete video:', e.message);
-      }
-     }
+      on("after:spec", (spec, results) => {
+        if (results && results.video) {
+          
+          const failures = results.tests.some((test) =>
+            test.attempts.some((attempt) => attempt.state === "failed")
+          );
+
+          if (!failures && fs.existsSync(results.video)) {
+            try {
+              fs.unlinkSync(results.video);
+            } catch (e) {
+              console.log("Could not delete video:", e.message);
+            }
+          }
+        }
       });
     },
-
   },
 });
-
-
